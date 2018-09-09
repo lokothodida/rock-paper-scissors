@@ -1,11 +1,9 @@
 <?php
 
 use lokothodida\RockPaperScissors\Game;
-use lokothodida\RockPaperScissorsCli\CommandLineReferee;
+use lokothodida\RockPaperScissorsCli\CommandLinePlayer;
+use lokothodida\RockPaperScissorsCli\RandomComputerPlayer;
 
 require __DIR__ . '/vendor/autoload.php';
 
-$computerChoices = ['R', 'P', 'S'];
-$computer = $computerChoices[rand(0, 2)];
-
-(new Game(new CommandLineReferee()))->play('', $computer);
+(new Game(new CommandLinePlayer(), new RandomComputerPlayer()))->play();
