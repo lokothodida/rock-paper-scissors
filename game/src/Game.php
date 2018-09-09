@@ -19,13 +19,13 @@ final class Game
 
     public function play(): void
     {
-        $player1 = $this->player1->choose();
-        $player2 = $this->player2->choose();
+        $player1sMove = $this->player1->choose();
+        $player2sMove = $this->player2->choose();
 
-        if ($player1->beats($player2)) {
+        if ($player1sMove->beats($player2sMove)) {
             $this->player1->accept(new Win());
             $this->player2->accept(new Loss());
-        } elseif ($player2->beats($player1)) {
+        } elseif ($player2sMove->beats($player1sMove)) {
             $this->player1->accept(new Loss());
             $this->player2->accept(new Win());
         } else {
