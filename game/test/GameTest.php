@@ -1,87 +1,74 @@
 <?php
 
 use lokothodida\RockPaperScissors\Game;
-use lokothodida\RockPaperScissors\Referee;
+use lokothodida\RockPaperScissors\Player;
 use lokothodida\RockPaperScissors\Gesture;
 use lokothodida\RockPaperScissors\Outcome;
-use lokothodida\RockPaperScissors\Outcomes\Player1Wins;
-use lokothodida\RockPaperScissors\Outcomes\Player2Wins;
+use lokothodida\RockPaperScissors\Outcomes\Win;
+use lokothodida\RockPaperScissors\Outcomes\Loss;
 use lokothodida\RockPaperScissors\Outcomes\Tie;
 use PHPUnit\Framework\TestCase;
 
 class GameTest extends TestCase
 {
-    private $outcome;
-    private $referee;
-
-    public function setUp()
+    public function testWhenPlayer1sMoveBeatsPlayer2sMoveThenPlayer1WinsAndPlayer2Loses()
     {
-        $this->referee = new class($this->winner(), $this->loser()) implements Referee {
-            private $winner;
-            private $loser;
-            private $outcome;
-
-            public function __construct(Gesture $winner, Gesture $loser)
-            {
-                $this->winner = $winner;
-                $this->loser = $loser;
-            }
-
-            public function interpret(string $move): Gesture
-            {
-                return $move === 'winner' ? $this->winner : $this->loser;
-            }
-
-            public function announce(Outcome $outcome): void
-            {
-                $this->outcome = $outcome;
-            }
-
-            public function lastOutcome(): Outcome
-            {
-                return $this->outcome;
-            }
-        };
+        $game = new Game($player1 = new MockPlayer(true), $player2 = new MockPlayer(false));
+        $game->play();
+        $this->assertEquals(new Win(), $player1->lastOutcome());
+        $this->assertEquals(new Loss(), $player2->lastOutcome());
     }
 
-    public function testWhenPlayer1sMoveBeatsPlayer2sMoveThenPlayer1Wins()
+    public function testWhenPlayer2sMoveBeatsPlayer1sMoveThenPlayer2WinsAndPlayer1Loses()
     {
-        $game = new Game($this->referee);
-        $game->play('winner', 'loser');
-        $this->assertEquals(new Player1Wins(), $this->referee->lastOutcome());
-    }
-
-    public function testWhenPlayer2sMoveBeatsPlayer1sMoveThenPlayer2Wins()
-    {
-        $game = new Game($this->referee);
-        $game->play('loser', 'winner');
-        $this->assertEquals(new Player2Wins(), $this->referee->lastOutcome());
+        $game = new Game($player1 = new MockPlayer(false), $player2 = new MockPlayer(true));
+        $game->play();
+        $this->assertEquals(new Loss(), $player1->lastOutcome());
+        $this->assertEquals(new Win(), $player2->lastOutcome());
     }
 
     public function testWhenNeitherPlayerBeatsTheOtherThenItIsATie()
     {
-        $game = new Game($this->referee);
-        $game->play('loser', 'loser');
-        $this->assertEquals(new Tie(), $this->referee->lastOutcome());
+        $game = new Game($player1 = new MockPlayer(false), $player2 = new MockPlayer(false));
+        $game->play();
+        $this->assertEquals(new Tie(), $player1->lastOutcome());
+        $this->assertEquals(new Tie(), $player2->lastOutcome());
+    }
+}
+
+class MockPlayer implements Player
+{
+    private $isWinner;
+    private $outcome;
+
+    public function __construct($isWinner)
+    {
+        $this->isWinner = $isWinner;
     }
 
-    private function winner(): Gesture
+    public function choose(): Gesture
     {
-        return new class() implements Gesture {
+        return new class($this->isWinner) implements Gesture {
+            private $isWinner;
+
+            public function __construct($isWinner) {
+                $this->isWinner = $isWinner;
+            }
+
             public function beats(Gesture $move): bool
             {
-                return true;
+                return $this->isWinner;
             }
         };
     }
 
-    private function loser(): Gesture
+    public function accept(Outcome $outcome): void
     {
-        return new class() implements Gesture {
-            public function beats(Gesture $move): bool
-            {
-                return false;
-            }
-        };
+        $this->outcome = $outcome;
+    }
+
+    public function lastOutcome(): Outcome
+    {
+        return $this->outcome;
     }
 }

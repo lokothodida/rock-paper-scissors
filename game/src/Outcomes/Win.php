@@ -4,6 +4,6 @@ namespace lokothodida\RockPaperScissors\Outcomes;
 
 use lokothodida\RockPaperScissors\Outcome;
 
-final class Player2Wins implements Outcome
+final class Win implements Outcome
 {
 }
