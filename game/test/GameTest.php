@@ -2,7 +2,7 @@
 
 use lokothodida\RockPaperScissors\Game;
 use lokothodida\RockPaperScissors\Referee;
-use lokothodida\RockPaperScissors\Move;
+use lokothodida\RockPaperScissors\Gesture;
 use lokothodida\RockPaperScissors\Outcome;
 use lokothodida\RockPaperScissors\Outcomes\Player1Wins;
 use lokothodida\RockPaperScissors\Outcomes\Player2Wins;
@@ -21,13 +21,13 @@ class GameTest extends TestCase
             private $loser;
             private $outcome;
 
-            public function __construct(Move $winner, Move $loser)
+            public function __construct(Gesture $winner, Gesture $loser)
             {
                 $this->winner = $winner;
                 $this->loser = $loser;
             }
 
-            public function interpret(string $move): Move
+            public function interpret(string $move): Gesture
             {
                 return $move === 'winner' ? $this->winner : $this->loser;
             }
@@ -65,20 +65,20 @@ class GameTest extends TestCase
         $this->assertEquals(new Tie(), $this->referee->lastOutcome());
     }
 
-    private function winner(): Move
+    private function winner(): Gesture
     {
-        return new class() implements Move {
-            public function beats(Move $move): bool
+        return new class() implements Gesture {
+            public function beats(Gesture $move): bool
             {
                 return true;
             }
         };
     }
 
-    private function loser(): Move
+    private function loser(): Gesture
     {
-        return new class() implements Move {
-            public function beats(Move $move): bool
+        return new class() implements Gesture {
+            public function beats(Gesture $move): bool
             {
                 return false;
             }

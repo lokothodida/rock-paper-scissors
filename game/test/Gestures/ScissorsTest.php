@@ -1,8 +1,8 @@
 <?php
 
-use lokothodida\RockPaperScissors\Moves\Scissors;
-use lokothodida\RockPaperScissors\Moves\Paper;
-use lokothodida\RockPaperScissors\Moves\Rock;
+use lokothodida\RockPaperScissors\Gestures\Scissors;
+use lokothodida\RockPaperScissors\Gestures\Paper;
+use lokothodida\RockPaperScissors\Gestures\Rock;
 use PHPUnit\Framework\TestCase;
 
 class ScissorsTest extends TestCase
