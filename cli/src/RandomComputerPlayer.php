@@ -11,16 +11,16 @@ use lokothodida\RockPaperScissors\Outcome;
 
 final class RandomComputerPlayer implements Player
 {
-	public function choose(): Gesture
-	{
-		switch (rand(1, 3)) {
-			case 1: return new Rock();
-			case 2: return new Paper();
-			case 3: return new Scissors();
-		}
-	}
+    public function choose(): Gesture
+    {
+        switch (rand(1, 3)) {
+            case 1: return new Rock();
+            case 2: return new Paper();
+            case 3: return new Scissors();
+        }
+    }
 
-	public function accept(Outcome $outcome): void
-	{
-	}
+    public function accept(Outcome $outcome): void
+    {
+    }
 }
