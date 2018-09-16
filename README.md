@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/lokothodida/rock-paper-scissors.svg?branch=master)](https://travis-ci.org/lokothodida/rock-paper-scissors)
+
 # Rock Paper Scissors
 A small domain model implementing the simple game of
 Rock Paper Scissors. The aim was to treat the game
