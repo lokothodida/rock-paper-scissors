@@ -15,9 +15,16 @@ use Exception;
 
 final class CommandLinePlayer implements Player
 {
+    private $commandLine;
+
+    public function __construct(CommandLine $commandLine)
+    {
+        $this->commandLine = $commandLine;
+    }
+
     public function choose(): Gesture
     {
-        switch (readline('Select a move (R, P, S) > ')) {
+        switch ($this->commandLine->readLine('Select a move (R, P, S) > ')) {
             case 'R': return new Rock();
             case 'P': return new Paper();
             case 'S': return new Scissors();
@@ -28,13 +35,13 @@ final class CommandLinePlayer implements Player
     public function accept(Outcome $outcome): void
     {
         if ($outcome instanceof Win) {
-            echo "You win!\n";
+            $this->commandLine->writeLine("You win!");
         } elseif ($outcome instanceof Loss) {
-            echo "You lose!\n";
+            $this->commandLine->writeLine("You lose!");
         } elseif ($outcome instanceof Tie) {
-            echo "Tie!\n";
+            $this->commandLine->writeLine("Tie!");
         } else {
-            throw Exception("Outcome not recognised");
+            throw new Exception("Outcome not recognised");
         }
     }
 }

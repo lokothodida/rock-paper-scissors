@@ -11,5 +11,23 @@ Included is a command line script for running the
 game against the computer (which just randomizes
 its choice each time).
 
-# Requirements
+## Requirements
 * PHP 7.2+
+
+## Installation
+```
+cd cli
+composer install
+```
+
+## Playing with the CLI
+CLI game is run from the `/cli` directory.
+
+```
+cd cli
+php index.php
+Select a move (R, P, S) > R
+Tie!
+```
+
+Type `R`, `P` or `S` into the command line.

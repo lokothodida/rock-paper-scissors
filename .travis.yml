@@ -4,3 +4,4 @@ php:
     - '7.2'
 script:
     - cd game && composer install && composer run test && cd ../
+    - cd cli && composer install && composer run test && cd ../
