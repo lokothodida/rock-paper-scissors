@@ -7,26 +7,30 @@
         }
     ],
     "require": {
-    	"lokothodida/rock-paper-scissors": "@dev"
+        "lokothodida/rock-paper-scissors": "@dev"
     },
     "autoload": {
-    	"psr-4": {
-    		"lokothodida\\RockPaperScissorsCli\\": "src/"
-    	}
+        "psr-4": {
+            "lokothodida\\RockPaperScissorsCli\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "classmap": [ "test/" ]
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.3"
+        "phpunit/phpunit": "^7.3",
+        "phpstan/phpstan": "^0.10.3"
     },
     "scripts": {
-    	"test": [
-			"phpunit --verbose --testdox"
-		]
+        "test": [ "@static-analysis", "@unit-test" ],
+        "unit-test": [ "phpunit --verbose --testdox" ],
+        "static-analysis": [ "phpstan analyse src test --level=7" ]
     },
     "repositories": {
-    	"lokothodida/rock-paper-scissors": {
-    		"type": "path",
-    		"url": "../game",
-    		"symlink": true
-    	}
+        "lokothodida/rock-paper-scissors": {
+            "type": "path",
+            "url": "../game",
+            "symlink": true
+        }
     }
 }
